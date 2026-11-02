@@ -1,0 +1,115 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border-bottom: 2px solid var(--line);
+  background: #fafcff;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf1f6;
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.rowBelow {
+  background: #fff8f8;
+}
+
+.paramName {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.nuvotonCol {
+  font-weight: 700;
+}
+
+.textMeets {
+  color: #15803d;
+}
+
+.textBelow {
+  color: #b91c1c;
+}
+
+.barWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.barTrack {
+  flex: 1;
+  height: 6px;
+  background: #edf1f6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.barPct {
+  font-size: 12px;
+  font-weight: 700;
+  width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badgeMeets {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badgeBelow {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.delta {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.deltaPos {
+  color: #15803d;
+}
+
+.deltaNeg {
+  color: #b91c1c;
+}

@@ -1,0 +1,2 @@
+part_number,manufacturer,family,core,cpu_freq_mhz,ram_kb,flash_kb,gpio,adc_bits,adc_channels,uart,spi,i2c,usb,usb_hs,can,ethernet,temp_max_c,vcc_min,vcc_max,package,notes
+STM32F446RE,STMicroelectronics,STM32F4,Cortex-M4F,180,128,512,51,12,16,6,4,3,1,0,0,0,85,1.7,3.6,LQFP64,FPU

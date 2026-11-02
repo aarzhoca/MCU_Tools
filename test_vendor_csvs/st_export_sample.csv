@@ -1,0 +1,6 @@
+Part Number,Series,Core,Operating Frequency (MHz),Flash Size (kB) (Prog),RAM Size (kB),Package,CAN Total,I2C Total,UART Total,SPI Total,Ethernet,Number of A/D Converters typ,USB Total,Supply Voltage (V) min,Operating Temperature (°C) max,General Description
+STM32F446RE,STM32F4,Arm Cortex-M4,180,512,128,LQFP64,0,3,6,4,0,16,1,1.7,85,High-performance MCU with FPU 180 MHz
+STM32L476RG,STM32L4,Arm Cortex-M4,80,1024,128,LQFP64,0,3,3,3,0,16,1,1.71,85,Ultra-low-power with FPU
+STM32G071RB,STM32G0,Arm Cortex-M0+,64,128,36,LQFP64,0,2,4,2,0,12,0,1.7,85,Mainstream MCU entry level
+STM32H563ZI,STM32H5,Arm Cortex-M33,250,2048,640,LQFP144,0,4,12,6,0,20,1,1.71,85,High-performance TrustZone security
+STM32WB55RG,STM32WB,Arm Cortex-M4,64,1024,256,LQFP64,0,3,3,3,0,16,1,1.71,85,Wireless BLE + 802.15.4 dual-core

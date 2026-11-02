@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nuvoton-mcu-xref
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+    disk:
+      name: catalog-data
+      mountPath: /app/backend/data
+      sizeGB: 1

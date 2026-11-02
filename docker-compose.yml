@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  nuvoton-xref:
+    build: .
+    image: nuvoton-mcu-xref:latest
+    container_name: nuvoton-xref
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist the competitor/Nuvoton catalog outside the container
+      - ./backend/data:/app/backend/data
+    environment:
+      - PYTHONPATH=/app/backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

@@ -1,0 +1,4 @@
+Product Name,Product Series,CPU Core,CPU Speed (MHz),Code Flash (KB),Data RAM (KB),Operating Voltage Min (V),Ambient Temp Max (C),Number of I/O,ADC Channels,UART Channels,SPI Channels,I2C Channels,USB Interface,CAN Bus,Ethernet,Package
+R7FA4M1AB3CFM,RA4M1,Arm Cortex-M4,48,256,32,1.6,85,64,28,4,2,2,1,0,0,LQFP64
+R7FA6M5BH2CBG,RA6M5,Arm Cortex-M4,200,2048,512,1.6,85,105,28,10,3,3,1,2,1,LQFP144
+R7FS7G27H2A01CFM,RA8M1,Arm Cortex-M85,480,2048,1024,1.7,85,105,24,10,3,3,1,0,0,LQFP100

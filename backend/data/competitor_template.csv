@@ -1,0 +1,5 @@
+part_number,manufacturer,family,core,cpu_freq_mhz,ram_kb,flash_kb,gpio,adc_bits,adc_channels,uart,spi,i2c,usb,usb_hs,can,ethernet,temp_max_c,vcc_min,vcc_max,package,notes
+STM32F446RE,STMicroelectronics,STM32F4,Cortex-M4F,180,128,512,51,12,16,6,4,3,1,0,0,0,85,1.7,3.6,LQFP64,FPU
+STM32L476RG,STMicroelectronics,STM32L4,Cortex-M4F,80,128,1024,51,12,16,3,3,2,1,0,0,0,85,1.71,3.6,LQFP64,Low power
+LPC1768FBD100,NXP,LPC17xx,Cortex-M3,100,64,512,70,12,8,4,3,3,1,1,1,1,85,2.4,3.6,LQFP100,Ethernet
+SAME70Q21B,Microchip,SAM E7x,Cortex-M7,300,384,2048,96,12,12,8,3,3,1,1,2,1,85,1.62,3.6,LQFP144,Dual-core

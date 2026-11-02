@@ -1,0 +1,5 @@
+Orderable Part Number,Product Family,Maximum Core Frequency (MHz),On-Chip Flash (KB),On-Chip RAM (KB),Total GPIO,CAN Interfaces,I2C Interfaces,SPI Interfaces,USB High Speed,Ethernet Interface,ADC Channel Count,Package,Operating Temperature (°C) max,Supply Voltage Min (V)
+LPC55S28JBD64,LPC55S2x,150,512,256,50,0,3,8,0,0,22,LQFP64,105,1.71
+LPC55S69JBD100,LPC55S6x,150,640,320,60,0,8,8,1,0,16,LQFP100,105,1.71
+LPC5526JBD48,LPC552x,150,256,96,36,0,3,8,0,0,16,LQFP48,105,1.71
+MIMXRT1062DVJ6A,i.MX RT1060,600,0,1024,50,3,4,4,1,1,16,MAPBGA196,105,1.71

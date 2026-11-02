@@ -1,0 +1,18 @@
+develop a Python or Excel Power Query script that:
+
+
+
+Pulls the latest XLS export from the Nuvoton online Selection Guide (https://www.nuvoton.com/selection-guide/).
+
+
+
+Filters where “Core” contains “M33” or “M23”.
+
+
+
+Adds internal tags (e.g., “Industrial‑AI‑Edge”, “Low‑power secure”, “Legacy migration from M0/M4”).
+
+you could use NuMicro MCU Product Selection Guide” (MCU‑PSG) for reference. the link is: https://www.nuvoton.com/export/sites/nuvoton/files/product-related-information/Nuvoton-MCU-PSG.pdf
+
+
+Publish that trimmed excel or csv file for cross reference with other competitor part.  This export will contain all visible columns (part number, package, memory, temperature, special features, etc.).

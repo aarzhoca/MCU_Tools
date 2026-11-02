@@ -1,0 +1,8 @@
+### Data Usage Rules
+
+- The table / CSV above is your **trusted Nuvoton candidate list**.
+- You may only choose `pn` values from this list as recommended parts.
+- Do not invent new Nuvoton part numbers.
+- When comparing specs, rely only on the columns in this table.
+- If a required spec is missing in the table, write `unknown` and explain the
+  assumption instead of guessing.
