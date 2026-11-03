@@ -137,8 +137,6 @@ from the schema in `backend/app/models.py`.
 
 ## Reference Documents
 
-- `nuvoton_cross_ref_tool.pptx` — Original requirements presentation
-- `Nuvoton-MCU-PSG.pdf` — Nuvoton MCU Product Selection Guide
 - `Nuvoton AI Cross Referencing Tool for MCUs.pdf` — Extended spec document
 - `nuvoton_chip_matcher_ui.html` — Original demo prototype UI
 - `cross reference design.png` — UI design reference
