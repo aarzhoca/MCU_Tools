@@ -1,0 +1,15 @@
+[
+  {
+    "part_number": "M031LC2AE",
+    "field": "temp_min_c",
+    "value": -40,
+    "source": {
+      "url": "https://www.nuvoton.com/products/microcontrollers/arm-cortex-m0-mcus/m031-series/m031lc2ae/",
+      "document": "M031LC2AE product page",
+      "section": "Key Features > Operating Characteristics",
+      "quote": "Temperature range: - 40°C to +105°C",
+      "checked_on": "2026-11-03",
+      "scope": "Operating temperature for M031LC2AE; not storage or junction temperature"
+    }
+  }
+]

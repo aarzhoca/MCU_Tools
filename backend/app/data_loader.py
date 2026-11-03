@@ -2,6 +2,7 @@ import json
 import os
 from typing import List, Dict, Optional
 from functools import lru_cache
+from .catalog_corrections import apply_catalog_corrections
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
@@ -14,7 +15,9 @@ def _load_json(filename: str) -> List[Dict]:
 
 @lru_cache(maxsize=1)
 def get_nuvoton_parts() -> List[Dict]:
-    return _load_json("nuvoton_parts.json")
+    return apply_catalog_corrections(
+        _load_json("nuvoton_parts.json"), _load_json("nuvoton_corrections.json")
+    )
 
 
 @lru_cache(maxsize=1)
