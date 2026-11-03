@@ -3,6 +3,7 @@ import styles from './App.module.css';
 import SearchPanel from './components/SearchPanel';
 import ResultsPanel from './components/ResultsPanel';
 import ImportModal from './components/ImportModal';
+import STXlsxPreviewModal from './components/STXlsxPreviewModal';
 import { getCharacteristics, findMatches } from './api';
 import type { Characteristic, MatchResponse } from './types';
 
@@ -14,6 +15,7 @@ export default function App() {
   const [result, setResult] = useState<MatchResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showImport, setShowImport] = useState(false);
+  const [showSTPreview, setShowSTPreview] = useState(false);
   const [importedCount, setImportedCount] = useState(0);
 
   useEffect(() => {
@@ -76,6 +78,9 @@ export default function App() {
                 Enter a competitor part number, select at least 5 parameters to compare, and find the best-matching Nuvoton MCU.
               </p>
             </div>
+            <button className={styles.importBtn} onClick={() => setShowSTPreview(true)} type="button">
+              ST Excel preview
+            </button>
             <button className={styles.importBtn} onClick={() => setShowImport(true)} type="button">
               + Add competitor parts
               {importedCount > 0 && <span className={styles.importBadge}>{importedCount}</span>}
@@ -109,6 +114,7 @@ export default function App() {
         Nuvoton Technology Corporation — Internal Sales Tool
       </footer>
 
+      {showSTPreview && <STXlsxPreviewModal onClose={() => setShowSTPreview(false)} />}
       {showImport && (
         <ImportModal
           onClose={() => setShowImport(false)}

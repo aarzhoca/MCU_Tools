@@ -1,0 +1,137 @@
+import { useEffect, useRef, useState } from 'react';
+import styles from './ImportModal.module.css';
+
+type RecordPreview = {
+  part_number: string;
+  core: string | null;
+  cpu_freq_mhz: number | null;
+  flash_kb: number | null;
+  ram_kb: number | null;
+  package: string | null;
+  temp_min_c: number | null;
+  temp_max_c: number | null;
+  vcc_min: number | null;
+  vcc_max: number | null;
+  field_quality: Record<string, string>;
+  source: { file: string; sheet: string; row: number; sha256: string };
+};
+type Preview = {
+  parsed_count: number; matched_count: number; error_count: number;
+  records: RecordPreview[]; errors: { row: number; part: string; error: string }[];
+  warnings: string[]; mapping: Record<string, string>; exact_query: string;
+};
+const display = (value: string | number | null) => value ?? 'Unknown';
+
+export default function STXlsxPreviewModal({ onClose }: { onClose: () => void }) {
+  const [file, setFile] = useState<File | null>(null);
+  const [sheet, setSheet] = useState('ProductsList');
+  const [query, setQuery] = useState('');
+  const [preview, setPreview] = useState<Preview | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const controller = useRef<AbortController | null>(null);
+  useEffect(() => () => controller.current?.abort(), []);
+
+  function reset() {
+    controller.current?.abort();
+    controller.current = null;
+    setPreview(null); setError(null); setLoading(false);
+  }
+  async function loadPreview() {
+    if (!file) { setError('Select an ST .xlsx workbook.'); return; }
+    if (!file.name.toLowerCase().endsWith('.xlsx') || file.size > 20 * 1024 * 1024) {
+      setError('Select an .xlsx workbook no larger than 20 MiB.'); return;
+    }
+    controller.current?.abort();
+    const active = new AbortController();
+    controller.current = active;
+    setLoading(true); setError(null); setPreview(null);
+    const form = new FormData();
+    form.append('file', file); form.append('sheet', sheet); form.append('part_number', query);
+    try {
+      const response = await fetch('/api/chips/competitor/st-xlsx-preview', {
+        method: 'POST', body: form, signal: active.signal,
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(typeof body?.detail === 'string' ? body.detail : `Preview failed (${response.status})`);
+      }
+      const body = await response.json() as Preview;
+      if (controller.current === active) setPreview(body);
+    } catch (reason) {
+      if (!active.signal.aborted && controller.current === active)
+        setError(reason instanceof Error ? reason.message : 'Preview failed');
+    } finally {
+      if (controller.current === active) setLoading(false);
+    }
+  }
+  return (
+    <div className={styles.overlay}>
+      <div className={styles.modal} role="dialog" aria-modal="true" aria-label="ST Excel preview">
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>ST Excel preview</h2>
+          <button type="button" className={styles.closeBtn} aria-label="Close preview" onClick={onClose}>×</button>
+        </div>
+        <div className={styles.body}>
+          <div className={styles.tabContent}>
+            <p className={styles.hint}>Preview only. Uploads are not saved or added to matching. Master catalog unchanged.
+              CSV/manual imports remain a separate legacy workflow.</p>
+            <label>ST workbook (.xlsx, maximum 20 MiB)
+              <input type="file" accept=".xlsx" onChange={event => {
+                reset(); setFile(event.target.files?.[0] ?? null);
+              }} />
+            </label>
+            <label>Worksheet
+              <input className={styles.input} maxLength={100} value={sheet}
+                onChange={event => { reset(); setSheet(event.target.value); }} />
+            </label>
+            <label>Exact part number (leave blank for first 20 records)
+              <input className={styles.input} maxLength={100} placeholder="STM32F051C6T6" value={query}
+                onChange={event => { reset(); setQuery(event.target.value); }} />
+            </label>
+            <button type="button" className={styles.btnPrimary} disabled={!file || loading} onClick={loadPreview}>
+              {loading ? 'Reading workbook…' : 'Preview workbook'}
+            </button>
+            <p className={styles.hint} aria-live="polite">{loading ? 'Processing selected workbook.' : ''}</p>
+            {error && <p className={styles.error} role="alert">{error}</p>}
+            {preview && <>
+              <p>{preview.parsed_count} parsed records · {preview.matched_count} exact/filter matches ·
+                {' '}{preview.error_count} rejected rows. Showing {preview.records.length} records.</p>
+              {preview.warnings.map((warning, index) => <p className={styles.hint} key={index}>{warning}</p>)}
+              {preview.exact_query && preview.matched_count === 0 &&
+                <p className={styles.error}>Exact part not found. No fuzzy substitute was selected.</p>}
+              <details><summary>Column mapping and normalization</summary>
+                <ul>{Object.entries(preview.mapping).map(([target, source]) =>
+                  <li key={target}>{source} → {target}</li>)}</ul>
+                <p>Core uses the explicit FPU column. Unmapped peripherals stay Unknown. Package dimensions are not pin compatibility.</p>
+              </details>
+              <div className={styles.previewTable}><table>
+                <thead><tr><th>Part</th><th>Core</th><th>MHz</th><th>Flash KB</th><th>RAM KB</th>
+                  <th>Package</th><th>Min °C</th><th>Max °C</th><th>Min V</th><th>Max V</th></tr></thead>
+                <tbody>{preview.records.map(record => <tr key={record.part_number}>
+                  <td>{record.part_number}</td><td>{display(record.core)}</td>
+                  <td>{display(record.cpu_freq_mhz)}</td><td>{display(record.flash_kb)}</td>
+                  <td>{display(record.ram_kb)}</td><td>{display(record.package)}</td>
+                  <td>{display(record.temp_min_c)}</td><td>{display(record.temp_max_c)}</td>
+                  <td>{display(record.vcc_min)}</td><td>{display(record.vcc_max)}</td>
+                </tr>)}</tbody>
+              </table></div>
+              <details><summary>Unknown fields and source references</summary>
+                {preview.records.map(record => <p key={record.part_number} className={styles.hint}>
+                  {record.part_number}: {Object.entries(record.field_quality).filter(([, quality]) => quality === 'unknown')
+                    .map(([field]) => field).join(', ') || 'No unknown normalized fields'}.
+                  {' '}Source: {record.source.file}, {record.source.sheet}, row {record.source.row}.
+                  {' '}SHA-256: {record.source.sha256}
+                </p>)}
+              </details>
+              {preview.error_count > 0 && <details><summary>Rejected rows (first 20)</summary>
+                <ul>{preview.errors.map((item, index) =>
+                  <li key={index}>Row {item.row}, {item.part}: {item.error}</li>)}</ul>
+              </details>}
+            </>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

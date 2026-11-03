@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-from .routers import chips, match
+from .routers import chips, match, st_preview
 
 app = FastAPI(
     title="Nuvoton MCU Cross Reference API",
@@ -22,6 +22,7 @@ app.add_middleware(
 
 app.include_router(chips.router)
 app.include_router(match.router)
+app.include_router(st_preview.router)
 
 
 @app.get("/health")
