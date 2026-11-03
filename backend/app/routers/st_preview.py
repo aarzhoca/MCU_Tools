@@ -28,3 +28,16 @@ def preview_st_xlsx(file: UploadFile = File(...), sheet: str = Form("ProductsLis
                 detail="Cannot preview this workbook. Check XLSX format, ProductsList sheet, ST headers, and size limits.")
     finally:
         file.file.close()
+
+
+from ..data_loader import get_nuvoton_parts
+from ..matcher import find_matches, CORE_RANK
+from ..workspace_matching import WorkspaceRequest, match_workspace
+
+
+@router.post("/workspace/match")
+def workspace_match(request: WorkspaceRequest):
+    try:
+        return match_workspace(request, get_nuvoton_parts(), find_matches, CORE_RANK)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error))
