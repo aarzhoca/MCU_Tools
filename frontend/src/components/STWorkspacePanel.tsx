@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './ImportModal.module.css';
+import WorkspaceComparison from './WorkspaceComparison';
 
 export type WorkspaceSource = { part_number: string; [key: string]: unknown };
 type Check = { field: string; operator: string; required_value: unknown; actual_value: unknown; status: string; reason: string };
@@ -7,7 +8,8 @@ type Candidate = { part_number: string; eligibility: string; similarity_pct?: nu
   comparison?: { key: string; label: string; competitor_value: unknown; nuvoton_value: unknown }[] };
 type Result = { matches: Candidate[]; failed_candidates: Candidate[]; unknown_candidates: Candidate[];
   unranked_candidates: Candidate[]; omitted_source_fields: string[]; ranked_count: number; unranked_count: number;
-  eligibility_counts: Record<string, number>; message: string | null };
+  eligibility_counts: Record<string, number>; message: string | null;
+  comparison_snapshot_json: string; snapshot_token: string };
 const FIELDS = [
   ['cpu_freq_mhz', 'Minimum frequency (MHz)', 'gte'], ['flash_kb', 'Minimum Flash (KB)', 'gte'],
   ['ram_kb', 'Minimum RAM (KB)', 'gte'], ['core', 'Exact core', 'eq'], ['package', 'Exact package', 'eq'],
@@ -85,6 +87,7 @@ export default function STWorkspacePanel({ source, onClear }: { source: Workspac
       <p>{result.ranked_count} rankable; {result.unranked_count} unranked. Requirement totals: {JSON.stringify(result.eligibility_counts)}.</p>
       <p>Up to five records shown per group. {result.message}</p>
       {result.omitted_source_fields.length > 0 && <p>Unknown source fields omitted from ranking: {result.omitted_source_fields.join(', ')}</p>}
+      <WorkspaceComparison key={result.snapshot_token} snapshotJSON={result.comparison_snapshot_json} token={result.snapshot_token} />
       {candidates('Ranked candidates', result.matches)}
       {candidates('Failed mandatory checks', result.failed_candidates)}
       {candidates('Mandatory checks need verification', result.unknown_candidates)}
