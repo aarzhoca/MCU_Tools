@@ -30,24 +30,19 @@ def health():
     return {"status": "ok"}
 
 
-# ── Serve the built React frontend ────────────────────────────────────────
-# Resolves to  <project_root>/frontend/dist  regardless of cwd.
-# Works for local (project root) and Docker (/app/backend as cwd)
-_HERE = os.path.dirname(__file__)           # backend/app/
-_DIST = os.path.normpath(os.path.join(_HERE, "..", "..", "frontend", "dist"))
-if not os.path.isdir(_DIST):
-    # Docker layout: cwd is /app/backend, dist is at /app/frontend/dist
+# Desktop launcher supplies its bundled frontend; development defaults stay unchanged.
+_HERE = os.path.dirname(__file__)
+_DIST = os.environ.get("MCU_XREF_FRONTEND_DIR") or os.path.normpath(
+    os.path.join(_HERE, "..", "..", "frontend", "dist"))
+if not os.path.isdir(_DIST) and not os.environ.get("MCU_XREF_FRONTEND_DIR"):
     _DIST = os.path.normpath(os.path.join(_HERE, "..", "..", "..", "frontend", "dist"))
 
 if os.path.isdir(_DIST):
-    # Serve static assets (JS/CSS/images)
     app.mount("/assets", StaticFiles(directory=os.path.join(_DIST, "assets")), name="assets")
 
-    # Every non-API path returns index.html so React Router works
     @app.get("/{full_path:path}", include_in_schema=False)
     def serve_frontend(full_path: str):
-        index = os.path.join(_DIST, "index.html")
-        return FileResponse(index)
+        return FileResponse(os.path.join(_DIST, "index.html"))
 
     @app.get("/", include_in_schema=False)
     def serve_root():

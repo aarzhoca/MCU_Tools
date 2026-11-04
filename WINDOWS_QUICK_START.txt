@@ -1,0 +1,31 @@
+NUVOTON MCU CROSS REFERENCE - WINDOWS LOCAL PILOT
+
+1. Extract the ENTIRE ZIP to a local folder.
+2. Keep MCU_Cross_Reference.exe and its _internal folder together.
+3. Double-click MCU_Cross_Reference.exe. A control window starts the local
+   backend and opens your browser. No Python, Node.js or Docker installation
+   should be needed on the recipient PC; clean-PC validation is required.
+4. Keep the control window open. Use Open browser to reopen the tool.
+5. Use Stop and exit to stop it. Closing a browser tab does not stop it.
+
+The app listens on 127.0.0.1 at an automatically assigned port. Do not open
+inbound firewall ports or run it as administrator for this pilot.
+Your own local files can be uploaded without an internet connection.
+External datasheet links still need internet access.
+
+Catalog copies and logs are under:
+%LOCALAPPDATA%\Nuvoton\MCU-XRef-Pilot
+The bundled seed catalogs are not modified by the application. Legacy CSV
+imports modify only the current user's catalog copy. Temporary ST workspaces
+remain temporary. Changing the bundled dataset creates a new data directory;
+older data is retained but personal catalog changes are not auto-migrated.
+
+Trouble: use Open logs and send desktop.log to the tool owner after checking
+it for private information. BUILD_INFO.json identifies the package build.
+If an instance is already running, use its control window or close it first.
+Backend restarts invalidate comparison snapshots; rerun matching to export.
+
+This unsigned pilot is not a production-approved release. If Windows or
+company security software blocks it, contact IT/the tool owner. Do not turn
+off antivirus or bypass company policy. No code-signing is implemented yet.
+PASS covers checked requirements only, not drop-in or engineering approval.
